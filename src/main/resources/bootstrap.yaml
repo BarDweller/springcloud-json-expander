@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: cloud-k8s-app
+  cloud:
+    kubernetes:
+      secrets:
+        enabled: true
+        paths: /etc/secrets
