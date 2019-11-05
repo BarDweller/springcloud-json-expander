@@ -47,6 +47,13 @@ Other versions may be available depending on which releases are present for this
 
 Currently this project is still being developed, so there's only the master-SNAPSHOT. 
 
+There is no configuration required, if the dependency is added, any eligible properties containing JSON will be expanded. 
+
+If you wish to disable the behavior with the dependency still present, set 
+```
+org.ozzy.springcloudjsonexpander.enabled=false
+```
+
 ### Future
 
 Mapping is currently limited to key/value objects, arrays are not explicitly supported (yet).
