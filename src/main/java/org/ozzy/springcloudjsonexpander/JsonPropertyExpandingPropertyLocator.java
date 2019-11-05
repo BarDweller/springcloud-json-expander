@@ -30,16 +30,30 @@ public class JsonPropertyExpandingPropertyLocator implements PropertySourceLocat
         this.otherpslocators = otherpslocators;
     }
 
+    private void addToMap(Map<String,Object> prefixed, String prefix, Map<String,Object> map){
+        for(Map.Entry<String,Object> entry : map.entrySet()){
+            Object value = entry.getValue();
+            if(value instanceof Map){
+                try{
+                    @SuppressWarnings("unchecked")
+                    Map<String,Object> childmap = (Map<String,Object>)value;
+                    addToMap(prefixed, prefix+"."+entry.getKey(), childmap);
+                }catch(ClassCastException e){
+                    prefixed.put(prefix+"."+entry.getKey(), entry.getValue());
+                }
+            }else{
+                prefixed.put(prefix+"."+entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
     private PropertySource<?> expandObject(String propertyName, String json){
         ObjectMapper mapper = new ObjectMapper();
         try{
             TypeReference<Map<String,Object>> typeRef = new TypeReference<Map<String,Object>>() {};
             Map<String,Object> map = mapper.readValue(json, typeRef);
             Map<String,Object> prefixed = new HashMap<String,Object>();
-            for(Map.Entry<String,Object> entry : map.entrySet()){
-                //should check if entry.getValue() is a json object to parse again
-                prefixed.put(propertyName+"."+entry.getKey(), entry.getValue());
-            }
+            addToMap(prefixed,propertyName,map);
             LOG.debug("*** Built new ps "+prefixed);
             return new MapPropertySource(propertyName+".prefixes", prefixed);
         }catch(Exception e){
