@@ -19,7 +19,7 @@ The project processes any existing enumerable property sources, and any property
 
 The resulting properties can then be used in placeholders, allowing for simple mapping of nested json values to configuration for other Spring Starters.
 
-This projects works well in conjuction with Spring Cloud Kubernetes, where configmaps/secrets are injected containing JSON.
+This projects works well in conjuction with Spring Cloud Kubernetes, for situations where configmaps/secrets are injected containing JSON.
 
 ### Usage
 
@@ -49,7 +49,7 @@ Currently this project is still being developed, so there's only the master-SNAP
 
 There is no configuration required, if the dependency is added, any eligible properties containing JSON will be expanded. 
 
-If you wish to disable the behavior with the dependency still present, set 
+If you wish to disable the behavior with the dependency still present, add this property to `application.properties`
 ```
 org.ozzy.springcloudjsonexpander.enabled=false
 ```
